@@ -1,13 +1,3 @@
-# from __future__ import absolute_import
-# from __future__ import division, print_function, unicode_literals
-
-# from sumy.parsers.html import HtmlParser
-# from sumy.parsers.plaintext import PlaintextParser
-# from sumy.nlp.tokenizers import Tokenizer
-# from sumy.summarizers.lsa import LsaSummarizer as Summarizer
-# from sumy.nlp.stemmers import Stemmer
-# from sumy.utils import get_stop_words
-# from flask import Flask
 from __future__ import absolute_import
 from __future__ import division, print_function, unicode_literals
 
@@ -34,13 +24,11 @@ class MyWindow(QMainWindow):
         self.initUI()
 
     def button_clicked(self):
-        self.label.setText("Recording pressed the button")
+        self.label.setText("Recording you!")
         self.update()
 
-        print(fastpunct.punct(["oh i thought you were here", "in theory everyone knows what a comma is", "hey how are you doing", "my name is sheela i am in love with hrithik"], batch_size=32))
-
         LANGUAGE = "english"
-        SENTENCES_COUNT = 10
+        SENTENCES_COUNT = 5  #collects the x number of relevant sentences.
 
         import speech_recognition as sr
         for index, name in enumerate(sr.Microphone.list_microphone_names()):
@@ -60,6 +48,7 @@ class MyWindow(QMainWindow):
                 print("You said " + speech) # use default Google API key `r.recognize_google(audio, key = implied)`
                 commentary = commentary + speech # + ". "
                 if "Corpus" in speech:
+                    commentary = commentary - "corpus"
                     break
             except sr.UnknownValueError:
                 print("Speech Recognition didn't catch that")
@@ -83,7 +72,7 @@ class MyWindow(QMainWindow):
             print(sentence)
 
     def initUI(self):
-        self.setGeometry(200, 200, 300, 300)
+        self.setGeometry(500, 500, 300, 300)
         self.setWindowTitle("Voice2Notes")
 
         self.label = QtWidgets.QLabel(self)
@@ -91,7 +80,7 @@ class MyWindow(QMainWindow):
         self.label.move(50,50)
 
         self.b1 = QtWidgets.QPushButton(self)
-        self.b1.setText("Click me!")
+        self.b1.setText("Click me to start recording!")
         self.b1.clicked.connect(self.button_clicked)
 
     def update(self):
